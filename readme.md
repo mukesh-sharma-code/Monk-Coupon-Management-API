@@ -42,6 +42,9 @@ Coupon management is a vast and fascinating feature, and there can be numerous t
    - Tailor coupons for specific user segments.  
    - Example: Special 10% discount for users who haven’t purchased in the last 3 months.
 
+# Suggestions:
+   
+
 # Limitations:
 No Integration with User, Cart, or Product Tables: The project does not include integration with user, cart, or product tables. The focus is solely on the coupon management system.
 
@@ -60,19 +63,19 @@ No Integration with User, Cart, or Product Tables: The project does not include 
 
 The following endpoints are implemented to support coupon management and application:
 
-POST /coupons: Create a new coupon with details such as type, discount value, applicable products, and restrictions.
+**POST /coupons** : Create a new coupon with details such as type, discount value, applicable products, and restrictions.
 
-GET /coupons: Retrieve all available coupons.
+**GET /coupons** : Retrieve all available coupons.
 
-GET /coupons/(fd): Retrieve a specific coupon by its ID.
+**GET /coupons/:id** : Retrieve a specific coupon by its ID.
 
-PUT /coupons/(fd): Update coupon details for a given ID.
+**PUT /coupons/:id** : Update coupon details for a given ID.;
 
-DELETE /coupons/(fd): Delete a coupon by ID.
+**DELETE /coupons/id:** : Delete a coupon by ID.
 
-POST /applicable-coupons: Retrieve and calculate all applicable coupons for a given cart.
+**POST /applicable-coupons** : Retrieve and calculate all applicable coupons for a given cart.
 
-POST /apply-coupon/(fd): Apply a specific coupon to a cart and return the updated cart with discounted prices.
+**POST /apply-coupon/id** : Apply a specific coupon to a cart and return the updated cart with discounted prices.
 
 # Setup
 

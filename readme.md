@@ -42,8 +42,6 @@ Coupon management is a vast and fascinating feature, and there can be numerous t
    - Tailor coupons for specific user segments.  
    - Example: Special 10% discount for users who haven’t purchased in the last 3 months.
 
-# Suggestions:
-   
 
 # Limitations:
 No Integration with User, Cart, or Product Tables: The project does not include integration with user, cart, or product tables. The focus is solely on the coupon management system.

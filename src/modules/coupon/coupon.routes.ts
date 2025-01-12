@@ -32,7 +32,22 @@ class CouponRoutes {
             `${this.path}/apply-coupon/:id`,
             CouponController.applyCoupon
         );
+
+        this.router.delete(
+            `${this.path}/coupon/:id`,
+            CouponController.deleteCoupon
+        );
+
+        this.router.get(
+            `${this.path}/coupon/:id`,
+            CouponController.getCoupon
+        );
+
+        this.router.put(
+            `${this.path}/coupon/:id`,
+            CouponController.updateCoupon
+        );
     }
 }
 
-export let couponRoutes = new CouponRoutes();
+export default CouponRoutes;

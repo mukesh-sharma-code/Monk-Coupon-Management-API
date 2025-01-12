@@ -34,7 +34,6 @@ export const responseHelper = {
     res.status(statusCode).json({
       success: false,
       message: message || ResponseMessages.ERROR,
-      error: null, // Do not expose internal error details to the client
     });
   },
 };

@@ -49,4 +49,5 @@ class DataBase {
 
 // Create a singleton instance of the database
 const db = new DataBase();
+db.conn.sync()
 export const DATABASE = db.conn;

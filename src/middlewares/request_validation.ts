@@ -26,25 +26,21 @@ export function ValidationMiddleware<T>(type: any, skipMissingProperties = false
                      [errorItem.property]: errorItem.constraints
                   })
                   // errorItem.property: errorItem.constraints
-                  if(errorItem.constraints ){                     
-                     for (const [key, value] of Object.entries(errorItem.constraints)) {                        
-                        if(errCount > 1){
+                  if (errorItem.constraints) {
+                     for (const [key, value] of Object.entries(errorItem.constraints)) {
+                        if (errCount > 1) {
                            errMsg += ', ';
                         }
-                        errMsg += value;                        
+                        errMsg += value;
                         ++errCount;
                      }
                   }
                }
-               const resMsg = {
-                  message: errMsg,
-                  data: errData
-               };
                return responseHelper.error(res, {
-                statusCode: StatusCodes.BAD_REQUEST,
-                message: ResponseMessages.ERROR,
-                error:errMsg,
-              });
+                  statusCode: StatusCodes.BAD_REQUEST,
+                  message: ResponseMessages.ERROR,
+                  error: errMsg,
+               });
             } else {
                next();
             }

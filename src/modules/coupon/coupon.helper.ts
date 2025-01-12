@@ -77,6 +77,80 @@ class CouponHelper {
    }
 
    /**
+    * handle different type of coupons while coupon updation
+    */
+   async updateCouponTypeSpecifics(
+      couponId: number,
+      data: CouponStruct,
+      transaction: Transaction
+   ) {
+      switch (data.type) {
+         case CouponType.CART:
+            if (data.cart_discount_rules) {
+               await CartCouponsRulesModel.destroy({
+                  where: { coupon_id: couponId },
+                  transaction,
+               });
+               await CartCouponsRulesModel.create(
+                  {
+                     coupon_id: couponId,
+                     ...data.cart_discount_rules,
+                  },
+                  { transaction }
+               );
+            }
+            break;
+   
+         case CouponType.PRODUCT:
+            if (data.product_discount_rules) {
+               await ProductCouponsRulesModel.destroy({
+                  where: { coupon_id: couponId },
+                  transaction,
+               });
+               await ProductCouponsRulesModel.create(
+                  {
+                     coupon_id: couponId,
+                     ...data.product_discount_rules,
+                  },
+                  { transaction }
+               );
+            }
+            break;
+   
+         case CouponType.BXGY:
+            if (data.bxgy_discount_rules) {
+               await BxgyCouponsRulesModel.destroy({
+                  where: { coupon_id: couponId },
+                  transaction,
+               });
+               await Promise.all([
+                  ...data.bxgy_discount_rules.buy_products.map((product) =>
+                     BxgyCouponsRulesModel.create(
+                        {
+                           coupon_id: couponId,
+                           type: BxgyType.BUY,
+                           ...product,
+                        },
+                        { transaction }
+                     )
+                  ),
+                  ...data.bxgy_discount_rules.get_products.map((product) =>
+                     BxgyCouponsRulesModel.create(
+                        {
+                           coupon_id: couponId,
+                           type: BxgyType.GET,
+                           ...product,
+                        },
+                        { transaction }
+                     )
+                  ),
+               ]);
+            }
+            break;
+      }
+   }
+
+   /**
     * Get applicable bxgy coupons
     */
    async getApplicableBxgyCoupons(cart: CartStruct) {

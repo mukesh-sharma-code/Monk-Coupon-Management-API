@@ -10,7 +10,7 @@ import CouponHelper from "./coupon.helper";
 
 class CouponService {
 
-   constructor(){
+   constructor() {
 
    }
 
@@ -168,6 +168,107 @@ class CouponService {
          return response;
       } catch (error) {
          console.error('Error applying coupon:', error);
+         throw error;
+      }
+   }
+
+   /**
+    * Delete coupons
+    */
+   async deleteCoupon(couponId: number) {
+      try {
+         return await CouponModel.destroy({
+            where: {
+               id: couponId
+            }
+         });
+      } catch (error) {
+         console.error('Error deleting coupon:', error);
+         throw error;
+      }
+   }
+
+   /**
+    * Get coupon
+    */
+   async getCoupon(couponId: number) {
+      try {
+         return await CouponModel.findOne({
+            where:{
+               id: couponId
+            },
+            include: [
+               {
+                  model: CartCouponsRulesModel,
+                  required: false, // Make the inclusion optional
+                  // where: { type: CouponType.CART }, // Only include if coupon type is CART_WISE
+               },
+               {
+                  model: ProductCouponsRulesModel,
+                  required: false, // Make the inclusion optional
+                  // where: { type: CouponType.PRODUCT }, // Only include if coupon type is PRODUCT_WISE
+               },
+               {
+                  model: BxgyCouponsRulesModel,
+                  required: false, // Make the inclusion optional
+                  // where: { type: 'BXGY' }, // Only include if coupon type is BXGY
+               }
+            ],
+         });
+      } catch (error) {
+         console.error('Error in getCoupon:', error);
+         throw error;
+      }
+   }
+
+   /**
+    * Update coupon
+    */
+   async updateCoupon(couponId: number, data: CouponStruct) {
+      const transaction = await DATABASE.transaction();
+      try {
+
+         // First find the respective coupon
+         const coupon = await CouponModel.findOne({
+            where: {
+               id: couponId,
+               type: data.type
+            }
+         });
+         
+         if (!coupon) {
+            throw new Error('Coupon not found');
+         }
+
+         // Update base coupon
+         const [rowsUpdated] = await CouponModel.update(
+            {
+               type: data.type,
+               name: data.name,
+               description: data.description,
+               valid_from: data.valid_from,
+               valid_to: data.valid_to,
+               repetition_limit: data.repetition_limit,
+               is_active: data.is_active,
+            },
+            {
+               where: { id: couponId },
+               transaction,
+            }
+         );
+   
+         if (rowsUpdated === 0) {
+            throw new Error('Coupon not found');
+         }
+   
+         // Update type-specific rules
+         await CouponHelper.updateCouponTypeSpecifics(couponId, data, transaction);
+   
+         await transaction.commit();
+         return true; // Indicates successful update
+      } catch (error) {
+         await transaction.rollback();
+         console.error('Error updating coupon:', error);
          throw error;
       }
    }

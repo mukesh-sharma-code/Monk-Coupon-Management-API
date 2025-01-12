@@ -3,12 +3,14 @@
 ## Core Coupon Types
 
 ### Cart-wise Coupons
-- **Description:** Discounts applied based on the total cart value when a minimum threshold is met.
+- **Description:** Discounts applied based on the total cart value when a minimum threshold is met, the discount can be fixed or in percentage.
 - **Example:** 10% off on cart totals exceeding ₹1000.
+- **Example:** 100Rs off on cart totals exceeding ₹1000.
 
 ### Product-wise Coupons
-- **Description:** Discounts applied to specific products in the cart, useful for product-specific promotions.
+- **Description:** Discounts applied to specific products in the cart, useful for product-specific promotions, the discount can be fixed or in percentage.
 - **Example:** 15% off on Product X.
+- **Example:** 15Rs off on Product X.
 
 ### BxGy Coupons
 - **Description:** "Buy X, Get Y" deals, supporting limits on the number of free or discounted items.

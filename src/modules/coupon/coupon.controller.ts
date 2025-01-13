@@ -67,8 +67,8 @@ class CouponController {
    */
   async getApplicableCoupons(req: Request, res: Response) {
     try {
-      const { cart } = req.body;
-      const applicableCoupons = await CouponService.getApplicableCoupons(cart);
+      const { items } = req.body;
+      const applicableCoupons = await CouponService.getApplicableCoupons({items});
       return responseHelper.success(res, {
         statusCode: StatusCodes.OK,
         data: applicableCoupons,
@@ -92,9 +92,9 @@ class CouponController {
    */
   async applyCoupon(req: Request, res: Response) {
     try {
-      const { cart } = req.body;
+      const { items } = req.body;
       const couponId = parseInt(req.params.id)
-      const updatedCart = await CouponService.applyCoupon(couponId, cart);
+      const updatedCart = await CouponService.applyCoupon(couponId, {items});
       return responseHelper.success(res, {
         statusCode: StatusCodes.OK,
         data: updatedCart,

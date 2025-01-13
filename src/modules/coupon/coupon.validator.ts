@@ -80,9 +80,8 @@ export class CreateCouponDto {
   @IsString()
   name: string;
 
-  @IsOptional()
   @IsString()
-  description?: string;
+  description: string;
 
   @IsOptional()
   @IsDateString()
@@ -168,7 +167,12 @@ class CartItemDto {
   @IsPositive()
   price: number;
 }
-
+export class CartDto {
+  @IsArray({ message: 'Items must be an array.' })
+  @ValidateNested({ each: true }) // Ensures each item in the array is validated
+  @Type(() => CartItemDto) // Ensures proper type conversion for nested objects
+  items: CartItemDto[];
+}
 export class ApplicableCouponsDto {
   @IsOptional()
   @IsNumber()

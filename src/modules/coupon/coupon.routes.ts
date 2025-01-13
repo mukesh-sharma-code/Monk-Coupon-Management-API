@@ -1,7 +1,7 @@
 import * as express from 'express';
 import CouponController from './coupon.controller';
 import { ValidationMiddleware } from "../../middlewares/request_validation";
-import { CreateCouponDto } from './coupon.validator';
+import { CartDto, CreateCouponDto } from './coupon.validator';
 
 class CouponRoutes {
     public path = '';
@@ -25,11 +25,13 @@ class CouponRoutes {
 
         this.router.post(
             `${this.path}/applicable-coupons`,
+            ValidationMiddleware(CartDto),
             CouponController.getApplicableCoupons
         );
 
         this.router.post(
             `${this.path}/apply-coupon/:id`,
+            ValidationMiddleware(CartDto),
             CouponController.applyCoupon
         );
 
@@ -45,6 +47,7 @@ class CouponRoutes {
 
         this.router.put(
             `${this.path}/coupon/:id`,
+            ValidationMiddleware(CreateCouponDto),
             CouponController.updateCoupon
         );
     }

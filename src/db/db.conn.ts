@@ -28,6 +28,10 @@ class DataBase {
         idle: 20000,
         acquire: 60000,
       },
+      dialectOptions: {
+        charset: 'utf8mb4', // Force charset, was facing issue with jest, thats why i add charset
+        collate: 'utf8mb4_unicode_ci'
+      },
     });
 
     // Test the database connection

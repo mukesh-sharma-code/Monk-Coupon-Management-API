@@ -9,6 +9,5 @@ export const DB_CONFIG = {
 
 // Validate that all required environment variables are set
 if (!DB_CONFIG.host || !DB_CONFIG.user || !DB_CONFIG.password || !DB_CONFIG.database) {
-    console.log("env::",process.env.DB_HOST)
     throw new Error("Missing required database configuration in .env file.");
 }
